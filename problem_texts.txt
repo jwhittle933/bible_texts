@@ -1,8 +1,15 @@
 4Reigns
-Esther
+Esther - Ch1, 1:a-s missing or mislabeled
 Job
 Lamentations
 Odes
-Proverbs
+Proverbs - many errors corrected, some may still exist
 Psalms
+Odes - some chapters have unversed titles, ch. 4 title is v. 1
 PsalmsOfSolomon
+DanielLXX - 4:37b, 37c from Ralphs missing
+Jeremiah - Chapter 2 is weird in Ralphs. There is no 2:1
+Lamentations - ch. 1 has a verse 0 in Ralphs
+Joshua - Additional text after ch 24, not sure where it belongs.
+Sirach - starts with prologue, not chapter
+SusannaLXX - starts at v. 6, several vss are collapses, i.e., 7/8
