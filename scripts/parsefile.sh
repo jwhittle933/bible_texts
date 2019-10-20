@@ -1,10 +1,10 @@
 #!/bin/bash
 
-[ -z "$1" ] && echo -e "\t\033[0;31mError\033[m: Please supply a file to parse" && exit 0
+[ -z "$1" ] && echo -e "\033[0;31mError\033[m: Please supply a file to parse" && exit 0
+[[ ! "${1##*.}" =~ "txt" ]] && echo -e "\033[0;33mWarning\033[m: parsefile only supports .txt" && exit 0
 
 file=$1
-re_verse="^[0-9]+$"
-current_chapter=0
+re_verse="^[0-9a-z]+$"
 
 while IFS= read -r line; do
 	newline=""
@@ -14,7 +14,7 @@ while IFS= read -r line; do
 	fi
 
 	if [[ "${line:0:1}" =~ "#" ]]; then
-    current_chapter=$(echo $line | sed -e 's/:.*[0-9]//g' -e 's/[^0-9]//g' -e 's/ //g')
+    current_chapter=$(echo $line | sed -e 's/[0-9].*[a-zA-Z]//g' -e 's/:.*[0-9]//g' -e 's/[^0-9]//g' -e 's/ //g')
 		continue
 	fi
 
