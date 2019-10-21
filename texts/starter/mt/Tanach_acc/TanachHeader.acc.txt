@@ -1,0 +1,16 @@
+‪xxxx    Unicode/XML Westminster Leningrad Codex [4.20]‬
+‪xxxx‬
+‪xxxx    Produced by the J. Alan Groves Center for Advanced Biblical Research‬
+‪xxxx    2960 Church Road / Glenside, PA 19038-2000 / USA‬
+‪xxxx    ‬
+‪xxxx    Editor: Stephen K. Salisbury <Steve@GrovesCenter.org>‬
+‪xxxx    Senior Editor: Kirk E. Lowery <Kirk@GrovesCenter.org>‬
+‪xxxx‬
+‪xxxx    Transcriber: Christopher V. Kimball, West Redding, CT USA‬
+‪xxxx    Transcribed by WLC2XML of 28 July 2016 at 12 Aug 2017 @ 15:45.45. Build number: 25.2.‬
+‪xxxx    Transformed to text by XML2Text.xsl.xml of 2 Jun 2011 at 2018-09-03  11:30, Build number: 25.2. ‬
+‪xxxx    Layout: Full; Content: Accents.‬
+‪xxxx‬
+‪xxxx     (0 chapters, 0 verses).‬
+‪xxxx‬
+‪xxxx    End of  (0 chapters, 0 verses).
