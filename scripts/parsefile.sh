@@ -3,6 +3,8 @@
 [ -z "$1" ] && echo -e "\033[0;31mError\033[m: Please supply a file to parse" && exit 0
 [[ ! "${1##*.}" =~ "txt" ]] && echo -e "\033[0;33mWarning\033[m: parsefile only supports .txt" && exit 0
 
+echo "Parsing ${1}"
+
 file=$1
 re_verse="^[0-9a-z]+$"
 
