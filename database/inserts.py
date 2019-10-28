@@ -1,7 +1,6 @@
 """Insert Module"""
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from verse import Verse
 from connect import get_database
 
 def insert(verse):

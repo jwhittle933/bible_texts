@@ -5,10 +5,10 @@ from sqlalchemy import create_engine
 
 LOG = logging.getLogger(__name__)
 
-def get_database():
+def get_database(db_type='psql'):
     """Establish connection with db"""
     try:
-        engine = get_connection_from_profile()
+        engine = get_connection_from_profile(db_type)
         LOG.info("Connected to database")
     except IOError:
         LOG.exception("Failed to connect")
@@ -16,29 +16,35 @@ def get_database():
 
     return engine
 
-def get_connection_from_profile(config_file_name="db_config.yaml"):
+def get_connection_from_profile(db_type, config_file_name="./db_config.yaml"):
     """
     Sets up database connection from config file.
     Input:
-    config_file_name: File containing PGHOST, PGUSER,
-                      PGPASSWORD, PGDATABASE, PGPORT, which are the
-                      credentials for the PostgreSQL database
+    config_file_name: YAML file containing databse credentials
+                      Top-level keys are psql, mysql, or sqlite
+
+                      Under top-level, HOST, USER,
+                      PASSWORD, DATABASE, PORT fields are
+                      required
     """
     with open(config_file_name) as f:
         vals = yaml.load(f)
+        if db_type not in vals.keys():
+            raise Exception(f'Bad config file: no key {db_type}')
 
-        if not ('PGHOST' in vals.keys() and
-                'PGUSER' in vals.keys() and
-                'PGPASSWORD' in vals.keys() and
-                'PGDATABASE' in vals.keys() and
-                'PGPORT' in vals.keys()):
-            raise Exception(f'Bad config file: {config_file_name}')
+        vals = vals[db_type]
+        if not ('HOST' in vals.keys() and
+                'USER' in vals.keys() and
+                'PASSWORD' in vals.keys() and
+                'DATABASE' in vals.keys() and
+                'PORT' in vals.keys()):
+            raise Exception(f'Bad config file: {config_file_name}. psql not found')
 
-    return get_psql_engine(vals['PGDATABASE'],
-                           vals['PGUSER'],
-                           vals['PGHOST'],
-                           vals['PGPORT'],
-                           vals['PGPASSWORD'])
+    return get_psql_engine(vals['DATABASE'],
+                           vals['USER'],
+                           vals['HOST'],
+                           vals['PORT'],
+                           vals['PASSWORD'])
 
 def get_psql_engine(database, user, host, port, password):
     """
@@ -51,13 +57,4 @@ def get_psql_engine(database, user, host, port, password):
     passwd: Password for the database
     """
     url = f'postgresql://{user}:{password}@{host}:{port}/{database}'
-    return create_engine(url, pool_size=50)
-
-def get_creds(vals, db_type='psql'):
-    """
-    Return correct db creds
-    values: psql, mysql, sqlite
-    """
-    db_creds = vals[db_type]
-
-
+    return create_engine(url, pool_size=50, echo=True)

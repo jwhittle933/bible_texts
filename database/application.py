@@ -1,11 +1,11 @@
 """Entrypoint module for application"""
 import os
 import sys
-from pathlib import Path
 import argparse
 from fnmatch import fnmatch
-from verse import Verse
-from inserts import insert
+from pathlib import Path
+from migrations.lxx_tables import execute
+from connect import get_database
 
 FLAGS = None
 
@@ -36,14 +36,19 @@ def read_file(filename):
         for line in lines:
             yield line
 
+def migrate(engine):
+    """Perform migrations"""
+    execute(engine)
+
 def main(directory='.'):
     """Entrypoint for application"""
     for file in get_files(directory, '*.txt'):
-        print(file)
+        table_names = os.path.basename(file).replace('.txt', '').lower()
+        print(table_names)
         # verses = [Verse(line, 'Proverbs') for line in read_file(file)]
-        verses = [line for line in read_file(file)]
-        for verse in verses:
-            print(verse)
+        # verses = [line for line in read_file(file)]
+        # for verse in verses:
+            # print(verse)
             # insert(verse)
 
 if __name__ == '__main__':
@@ -52,5 +57,27 @@ if __name__ == '__main__':
         '--dir',
         type=str,
         default='.')
-    FLAGS, unparsed = parser.parse_known_args()
-    main(FLAGS.dir)
+    parser.add_argument(
+        '--migrate',
+        type=bool,
+        default=False,
+        help="""\
+        Migrate db tables. This option overrides all others.""")
+    parser.add_argument(
+        '--db',
+        type=str,
+        default='psql',
+        help="""\
+        The database you're using. Accepted values: psql, mysql, sqlite.
+        The credentials for your database of choice must be in db_config.yaml,
+        and must include: DATABASE, USER, HOST, PORT, PASSWORD""")
+    FLAGS, _ = parser.parse_known_args()
+
+    # --migrate overrides all other other options
+    if FLAGS.migrate is True:
+        print("Migration...")
+        ENGINE = get_database(FLAGS.db)
+        migrate(ENGINE)
+    else:
+        print("Main...")
+        main(FLAGS.dir)
