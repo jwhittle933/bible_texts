@@ -20,7 +20,7 @@ def get_tables():
 def make_table(book):
     """Make a single Table"""
     return Table(
-        book, META,
+        f'{book}_lxx', META,
         Column('id', Integer, primary_key=True),
         Column('chapter', Integer),
         Column('verse', Integer),

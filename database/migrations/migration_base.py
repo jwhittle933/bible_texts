@@ -1,29 +1,31 @@
 """Migration base class"""
 import sys
+import abc
 from sqlalchemy import Table, Column, Integer, Text, MetaData
 
-
-class Migration():
+class Migration:
     """Base class for migration
     data and methods"""
     meta = None
-    table_name = None
     books = []
     tables = []
 
-    def __init__(self, books, table_name):
+    def __init__(self, books):
         self.meta = MetaData()
         if not isinstance(books, list):
             print("Books must be a list. Received: {books}")
             sys.exit(0)
         self.books = books
-        self.table_name = table_name
+
+    def __len__(self):
+        return len(self.tables)
 
     def create_tables(self):
         """Create list of tables"""
         self.tables = [self.make_table(book) for book in self.books]
         return self
 
+    @abc.abstractmethod
     def make_table(self, book):
         """Create a single table"""
         return Table(
@@ -36,4 +38,7 @@ class Migration():
 
     def execute(self, engine):
         """Perform migration"""
-        self.meta.create_all(engine)
+        if self.tables is not None:
+            self.meta.create_all(engine)
+        else:
+            print('Invalid Migration')

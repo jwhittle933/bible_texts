@@ -4,7 +4,9 @@ import sys
 import argparse
 from fnmatch import fnmatch
 from pathlib import Path
-from migrations.lxx_tables import execute
+# from migrations.lxx_tables_migrations import execute
+from migrations.mt_tables_migrations import execute
+from migrations.migration_base import Migration
 from connect import get_database
 
 FLAGS = None
