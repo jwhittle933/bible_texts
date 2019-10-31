@@ -15,17 +15,17 @@ BOOKS = ['genesis', 'exodus', 'leviticus', 'numbers', 'deuteronomy',
 
 def get_tables():
     """Create Tables"""
-    return [make_table(book) for book in BOOKS]
+    for book in BOOKS:
+        make_table(book)
 
 def make_table(book):
     """Make a single Table"""
-    return Table(
-        f'{book}_lxx', META,
-        Column('id', Integer, primary_key=True),
-        Column('chapter', Integer),
-        Column('verse', Integer),
-        Column('text', Text),
-        Column('notes', Text))
+    Table(f'{book}_lxx', META,
+          Column('id', Integer, primary_key=True),
+          Column('chapter', Integer),
+          Column('verse', Integer),
+          Column('text', Text),
+          Column('notes', Text))
 
 def execute(engine):
     """Perform migration"""
